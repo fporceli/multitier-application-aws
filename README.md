@@ -118,3 +118,46 @@ Setting up Route 53 is relatively simple, but be careful not to use it too much,
 [![route53](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ROUTE53-ZONE.png "route53")](http://https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ROUTE53-ZONE.png "route53")
 To test whether it is working or not, just try to ping from one machine to another using the resolved name.
 [![PingRota53](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/PINGROUTE53.png "PingRota53")](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/PINGROUTE53.png "PingRota53")
+
+# Build and Deploy Artifcats
+### S3 Permissions
+To configure permissions in AWS, the first step is to create an IAM user. In the AWS console, you need to access the IAM service and create a new user with programmatic access permissions, such as Access Key and Secret Key. After creating the user, it is necessary to assign it the appropriate permission policy, we will use AmazonS3FullAccess, ensuring that it has the necessary privileges to manage S3 resources.
+
+After configuring the IAM user, it is time to create an IAM role that will be linked to the vprofile-tomcat01 instance. This role must have permissions equivalent to those of the user created using the policy mentioned above. Once this is done, you must access the AWS EC2 console, locate the vprofile-tomcat01 instance, and assign the IAM role you created to it. This will configure the instance to interact with S3 with administrative permissions.
+
+### Build 
+Para fazermos o deploy da aplicação vamos fazer sua construção em nosso computador utilizando o AWS CLI e o Maven. Vamos acessar nosso o diretório do nosso repositório
+
+multitier-application-aws/userdata/application.properties
+
+Certifique-se de alterar todos os endereços para o do DNS que configuramos. Por exemplo, vamos alterar a variável memcached.active.host para
+
+`memcached.active.host=mc01.vprofile.in`
+
+```bash
+#JDBC Configutation for Database Connection
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://db01.vprofile.in:3306/accounts?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+jdbc.username=admin
+jdbc.password=admin123
+
+#Memcached Configuration For Active and StandBy Host
+#For Active Host
+memcached.active.host=mc01.vprofile.in  
+memcached.active.port=11211
+#For StandBy Host
+memcached.standBy.host=127.0.0.2
+memcached.standBy.port=11211
+
+#RabbitMq Configuration
+rabbitmq.address=rmq01.vprofile.in
+rabbitmq.port=5672
+rabbitmq.username=test
+rabbitmq.password=test
+
+#Elasticesearch Configuration
+elasticsearch.host =192.168.1.85
+elasticsearch.port =9300
+elasticsearch.cluster=vprofile
+elasticsearch.node=vprofilenode
+```
