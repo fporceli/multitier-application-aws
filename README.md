@@ -34,11 +34,11 @@ Seu funcionamento é relativamente simples, mas para ficar melhor ilustrado. Seg
 
 # Security Groups
 With the visualization from the image, the construction of security groups becomes an easier task. However, it is always important to pay attention to the ports.
-###Elastic Load Balancer Security Group (elb-sg)
+### Elastic Load Balancer Security Group (elb-sg)
 [![ELB-SG](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ELB-SG.png "ELB-SG")](http://https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ELB-SG.png "ELB-SG")
-###Tomcat Security Group (tomcat-sg)
+### Tomcat Security Group (tomcat-sg)
 [![tomcat-sg](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/TOMCAT-SG.png "tomcat-sg")](http://https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/TOMCAT-SG.png "tomcat-sg")
-###Back End Security Group (backend-sg)
+### Back End Security Group (backend-sg)
 [![backend-sg](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/BACKEND-SG.png "backend-sg")](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/BACKEND-SG.png "backend-sg")
 
 # EC2 Instances
@@ -113,3 +113,8 @@ sudo apt update && sudo apt install openjdk-11-jdk software properties-common da
 sudo apt install tomcat9 tomcat9-admin -y
 sudo snap install aws-cli --classic 
 ```
+# Route 53 (Private DNS Server)
+Setting up Route 53 is relatively simple, but be careful not to use it too much, as you may end up leaving your account's free tier. Simply access the service through the AWS console and create a private zone. After that, you can create multiple hosted zones using the private IP address of each EC2 instance, as shown in the image:
+[![route53](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ROUTE53-ZONE.png "route53")](http://https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ROUTE53-ZONE.png "route53")
+To test whether it is working or not, just try to ping from one machine to another using the resolved name.
+[![PingRota53](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/PINGROUTE53.png "PingRota53")](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/PINGROUTE53.png "PingRota53")
