@@ -26,13 +26,13 @@ Seu funcionamento é relativamente simples, mas para ficar melhor ilustrado. Seg
 
 [![Fluxograma](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/Diagrama+em+branco.png "Fluxograma")](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/Diagrama+em+branco.png "Fluxograma")
 
-###Dependencies
+### Dependencies
 - Git
 - JDK 17.0.13
 - Apache Maven 3.9.9
 - AWS Cli
 
-#Security Groups
+# Security Groups
 With the visualization from the image, the construction of security groups becomes an easier task. However, it is always important to pay attention to the ports.
 ###Elastic Load Balancer Security Group (elb-sg)
 [![ELB-SG](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ELB-SG.png "ELB-SG")](http://https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/ELB-SG.png "ELB-SG")
@@ -41,8 +41,8 @@ With the visualization from the image, the construction of security groups becom
 ###Back End Security Group (backend-sg)
 [![backend-sg](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/BACKEND-SG.png "backend-sg")](https://felipe-vprofile-artifacts.s3.sa-east-1.amazonaws.com/BACKEND-SG.png "backend-sg")
 
-#EC2 Instances
-###vprofile-db01
+# EC2 Instances
+### vprofile-db01
 You may be launching an instance with an Amazon Linux 2023 AMI. Link the backend-sg security group and run the script below to install the packages and create the initial database. Remember to bind a key
 ```bash
 #!/bin/bash
@@ -68,7 +68,7 @@ sudo mysql -u root -p"$DATABASE_PASS" -e "grant all privileges on accounts.* TO 
 sudo mysql -u root -p"$DATABASE_PASS" accounts < /tmp/vprofile-project/src/main/resources/db_backup.sql
 sudo mysql -u root -p"$DATABASE_PASS" -e "FLUSH PRIVILEGES"
 ```
-###vprofile-mc01
+### vprofile-mc01
 You may be launching an instance with an Amazon Linux 2023 AMI. Link the backend-sg security group and run the script below to install the packages. Remember to bind a key
 ```bash
 #!/bin/bash
@@ -80,7 +80,7 @@ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/sysconfig/memcached
 sudo systemctl restart memcached
 sudo memcached -p 11211 -U 11111 -u memcached -d
 ```
-###vprofile-rmq01
+### vprofile-rmq01
 You may be launching an instance with an Amazon Linux 2023 AMI. Link the backend-sg security group and run the script below to install the packages. Remember to bind a key
 ```bash
 #!/bin/bash
@@ -104,7 +104,7 @@ sudo rabbitmqctl set_user_tags test administrator
 rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
 sudo systemctl restart rabbitmq-server
 ```
-###vprofile-tomcat01
+### vprofile-tomcat01
 This instance will be the only one where we will use another AMI, in which we will use Ubuntu Server 22.04. Be very careful not to select another version, as incompatibility errors with the JDK and Tomcat may occur.
 ```bash
 #!/bin/bash
