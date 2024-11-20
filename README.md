@@ -126,11 +126,11 @@ To configure permissions in AWS, the first step is to create an IAM user. In the
 After configuring the IAM user, it is time to create an IAM role that will be linked to the vprofile-tomcat01 instance. This role must have permissions equivalent to those of the user created using the policy mentioned above. Once this is done, you must access the AWS EC2 console, locate the vprofile-tomcat01 instance, and assign the IAM role you created to it. This will configure the instance to interact with S3 with administrative permissions.
 
 ### Build 
-Para fazermos o deploy da aplicação vamos fazer sua construção em nosso computador utilizando o AWS CLI e o Maven. Vamos acessar nosso o diretório do nosso repositório
+To deploy the application, we will build it on our computer using the AWS CLI and Maven. We will access our repository directory
 
 multitier-application-aws/userdata/application.properties
 
-Certifique-se de alterar todos os endereços para o do DNS que configuramos. Por exemplo, vamos alterar a variável memcached.active.host para
+Make sure to change all addresses to the DNS addresses we configured. For example, we will change the memcached.active.host variable to
 
 `memcached.active.host=mc01.vprofile.in`
 
