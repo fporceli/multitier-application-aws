@@ -161,3 +161,24 @@ elasticsearch.port =9300
 elasticsearch.cluster=vprofile
 elasticsearch.node=vprofilenode
 ```
+
+After that, you can run it inside the Visual Studio Code terminal.
+
+`mvn install`
+
+Once complete, a directory called "target" will be created. Inside it there will be a .war file, which will be our artifact to deploy to Tomcat.
+
+After that, we will transfer the .war file to an s3 bucket. Let's run the command.
+
+`aws s3 cp target/vprofile-v2.war s3://bucket-name/vprofile-v2.war`
+
+Note: remember to run "aws configure" to configure your user with access permission to S3.
+
+After that, we can log in to our ec2 instance vprofile-tomcat01 and run the pull of our artifact into the s3 bucket. To do this, we will need to install. You can run the following command:
+```bash
+systemctl stop tomcat9
+aws s3 cp s3://bucket-name/vprofile-v2.war /tmp/
+sudo rm -rf /var/lib/tomcat9/webapps/ROOT
+cp /tmp/vprofile-v2.war /var/lib/tomcat9/webapps/ROOT.war
+systemctl start tomcat9
+```
